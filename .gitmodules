@@ -1,0 +1,6 @@
+[submodule "ZitaoTech_KEYPOINT"]
+	path = ZitaoTech_KEYPOINT
+	url = https://github.com/manueliglesias/KEYPOINT.git
+[submodule "zmk_config_keypoint_macintosch_dongle"]
+	path = zmk_config_keypoint_macintosch_dongle
+	url = https://github.com/manueliglesias/zmk_config_keypoint_macintosch_dongle.git
