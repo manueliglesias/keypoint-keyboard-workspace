@@ -46,21 +46,28 @@ docker run --rm \
 
         echo "🔨 Building Left Half Firmware (Trackpad Peripheral)..."
         cd app
-        west build -p -b keypoint_dongle_left -d build_left -- -DSHIELD="lpm_view;left_bbtrackpad_keypoint" -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+        west build -p -b keypoint_dongle_left -d build_left -- -DSHIELD="lpm_view;left_bbtrackpad_keypoint" -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n -DZMK_CONFIG=/dongle_repo/config
         cp build_left/zephyr/zmk.uf2 /workspace/build_output/Keypoint_left_trackpad.uf2
         echo "✅ Built: Keypoint_left_trackpad.uf2"
 
+        echo "🔨 Building Right Half Firmware (Trackpoint Peripheral)..."
+        west build -p -b keypoint_dongle_right -d build_right -- -DSHIELD="lpm_view;right_trackpoint_keypoint" -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n -DZMK_CONFIG=/dongle_repo/config
+        cp build_right/zephyr/zmk.uf2 /workspace/build_output/Keypoint_right_trackpoint.uf2
+        echo "✅ Built: Keypoint_right_trackpoint.uf2"
+
         echo "🔨 Building Dongle Firmware (Central)..."
-        west build -p -b keypoint_dongle -d build_dongle -- -DSHIELD="st7789_display" -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y
+        west build -p -b keypoint_dongle -d build_dongle -- -DSHIELD="st7789_display" -DCONFIG_ZMK_SPLIT=y -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=y -DZMK_CONFIG=/dongle_repo/config
         cp build_dongle/zephyr/zmk.uf2 /workspace/build_output/Keypoint_dongle.uf2
         echo "✅ Built: Keypoint_dongle.uf2"
     '
 
 cp "$KEYPOINT_REPO/build_output/Keypoint_dongle.uf2" "$SCRIPT_DIR/build_output/"
 cp "$KEYPOINT_REPO/build_output/Keypoint_left_trackpad.uf2" "$SCRIPT_DIR/build_output/"
+cp "$KEYPOINT_REPO/build_output/Keypoint_right_trackpoint.uf2" "$SCRIPT_DIR/build_output/"
 
 echo ""
 echo "🎉 Build complete!"
 echo "Output files saved to build_output/:"
 echo "  1. $SCRIPT_DIR/build_output/Keypoint_dongle.uf2"
 echo "  2. $SCRIPT_DIR/build_output/Keypoint_left_trackpad.uf2"
+echo "  3. $SCRIPT_DIR/build_output/Keypoint_right_trackpoint.uf2"
